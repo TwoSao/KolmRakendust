@@ -9,7 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Compile Update="CustomMessageBox.cs">
+      <Compile Update="Form2.cs">
         <SubType>Form</SubType>
       </Compile>
     </ItemGroup>
