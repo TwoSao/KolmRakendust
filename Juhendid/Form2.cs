@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using Timer = System.Windows.Forms.Timer; // Используем Forms Timer, он лучше для UI
+using Timer = System.Windows.Forms.Timer;
 
 namespace Juhendid
 {
@@ -12,7 +12,6 @@ namespace Juhendid
         Label timeLbl = new Label();
         Label countdownLbl = new Label();
         Button checkBtn = new Button();
-
 
         Label mark = new Label();
         Label mark2 = new Label();
@@ -30,6 +29,8 @@ namespace Juhendid
         TextBox ans3 = new TextBox();
 
         Button startBtn = new Button();
+        Button resetBtn = new Button();
+        Button pauseBtn = new Button();
 
         Random rnd = new Random();
 
@@ -57,7 +58,6 @@ namespace Juhendid
             timeLbl.Font = new Font("Segoe UI", 14, FontStyle.Bold);
             panel1.Controls.Add(timeLbl);
 
-            // === Таймер ===
             countdownLbl.Text = "30";
             countdownLbl.Location = new Point(730, 10);
             countdownLbl.AutoSize = true;
@@ -67,19 +67,44 @@ namespace Juhendid
             // === Кнопка старта ===
             startBtn.Text = "Start quiz";
             startBtn.Location = new Point(380, 600);
-            startBtn.Size = new Size(150, 40);
+            startBtn.Size = new Size(120, 40);
             startBtn.Font = new Font("Segoe UI", 12, FontStyle.Bold);
             startBtn.BackColor = Color.LightGreen;
             startBtn.Click += StartQuiz;
             panel1.Controls.Add(startBtn);
+
+            // === Кнопка сброса (Reset Answers) ===
+            resetBtn.Text = "Reset";
+            resetBtn.Size = new Size(120, 40);
+            resetBtn.Location = new Point(520, 600);
+            resetBtn.BackColor = Color.LightCoral;
+            resetBtn.Click += ResetBtn_Click;
+            panel1.Controls.Add(resetBtn);
+
+            // === Кнопка паузы (Pause/Resume) ===
+            pauseBtn.Text = "Pause";
+            pauseBtn.Size = new Size(120, 40);
+            pauseBtn.Location = new Point(250, 600);
+            pauseBtn.BackColor = Color.LightGray;
+            pauseBtn.Click += PauseBtn_Click;
+            panel1.Controls.Add(pauseBtn);
 
             // === Создание примеров ===
             CreateQuestionRow(q1_1, q1_2, mark, ans1, "+", 100);
             CreateQuestionRow(q2_1, q2_2, mark2, ans2, "-", 180);
             CreateQuestionRow(q3_1, q3_2, mark3, ans3, "×", 260);
 
+            // === Кнопка проверки ответов ===
+            checkBtn.Text = "Check answers";
+            checkBtn.Location = new Point(380, 650);
+            checkBtn.Size = new Size(150, 40);
+            checkBtn.Font = new Font("Segoe UI", 12, FontStyle.Bold);
+            checkBtn.BackColor = Color.LightBlue;
+            checkBtn.Click += CheckAnswersClick;
+            panel1.Controls.Add(checkBtn);
+
             // === Таймер ===
-            quizTimer.Interval = 1000; // каждую секунду
+            quizTimer.Interval = 1000;
             quizTimer.Tick += QuizTimer_Tick;
         }
 
@@ -91,16 +116,6 @@ namespace Juhendid
             left.Size = new Size(60, 40);
             left.Font = new Font("Segoe UI", 20);
             left.TextAlign = ContentAlignment.MiddleCenter;
-            
-            // === Кнопка проверки ответов ===
-            checkBtn.Text = "Check answers";
-            checkBtn.Location = new Point(550, 600);
-            checkBtn.Size = new Size(150, 40);
-            checkBtn.Font = new Font("Segoe UI", 12, FontStyle.Bold);
-            checkBtn.BackColor = Color.LightBlue;
-            checkBtn.Click += CheckAnswersClick;
-            panel1.Controls.Add(checkBtn);
-
 
             op.Text = symbol;
             op.Location = new Point(330, y);
@@ -124,7 +139,6 @@ namespace Juhendid
         // Запуск новой игры
         private void StartQuiz(object? sender, EventArgs e)
         {
-            // Генерируем случайные числа
             i1_1 = rnd.Next(1, 50);
             i1_2 = rnd.Next(1, 50);
             i2_1 = rnd.Next(1, 100);
@@ -161,8 +175,8 @@ namespace Juhendid
 
         private void CheckAnswersClick(object? sender, EventArgs e)
         {
-            quizTimer.Stop(); // остановка таймера
-            CheckAnswers();   // проверка ответов
+            quizTimer.Stop();
+            CheckAnswers();
         }
 
         // Проверка правильности
@@ -175,6 +189,27 @@ namespace Juhendid
             if (int.TryParse(ans3.Text, out int a3) && a3 == i3_1 * i3_2) correct++;
 
             MessageBox.Show($"You got {correct} out of 3 correct!", "Results");
+        }
+
+        // === Сброс ответов ===
+        private void ResetBtn_Click(object? sender, EventArgs e)
+        {
+            ans1.Text = ans2.Text = ans3.Text = "";
+        }
+
+        // === Пауза / Продолжить ===
+        private void PauseBtn_Click(object? sender, EventArgs e)
+        {
+            if (quizTimer.Enabled)
+            {
+                quizTimer.Stop();
+                pauseBtn.Text = "Resume";
+            }
+            else
+            {
+                quizTimer.Start();
+                pauseBtn.Text = "Pause";
+            }
         }
     }
 }
