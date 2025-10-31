@@ -1,13 +1,13 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 using Timer = System.Windows.Forms.Timer;
 
 namespace Juhendid
 {
+    // See on matemaatika testi vorm. Siin saab arvutada.
     public partial class Form2 : Form
     {
-        // Панель и элементы
         Panel panel1 = new Panel();
         Label timeLbl = new Label();
         Label countdownLbl = new Label();
@@ -38,105 +38,106 @@ namespace Juhendid
         int timeLeft = 30;
         Timer quizTimer = new Timer();
 
+        // See funktsioon teeb matemaatika testi valmis.
         public Form2()
         {
             InitializeComponent();
-            this.Text = "Math Quiz";
-            this.Width = 900;
-            this.Height = 700;
+            this.Text = "Matemaatikaviktoriin";
+            this.Width = 700;
+            this.Height = 500;
             this.StartPosition = FormStartPosition.CenterScreen;
 
-            // === Панель ===
+            // === Paneel ===
             panel1.Dock = DockStyle.Fill;
             panel1.BackColor = Color.Bisque;
             Controls.Add(panel1);
 
-            // === Заголовок времени ===
-            timeLbl.Text = "Time left:";
-            timeLbl.Location = new Point(600, 10);
+            // === Aja näitaja ===
+            timeLbl.Text = "Aega jäänud:";
+            timeLbl.Location = new Point(450, 10);
             timeLbl.AutoSize = true;
             timeLbl.Font = new Font("Segoe UI", 14, FontStyle.Bold);
             panel1.Controls.Add(timeLbl);
 
             countdownLbl.Text = "30";
-            countdownLbl.Location = new Point(730, 10);
+            countdownLbl.Location = new Point(580, 10);
             countdownLbl.AutoSize = true;
             countdownLbl.Font = new Font("Segoe UI", 14, FontStyle.Bold);
             panel1.Controls.Add(countdownLbl);
 
-            // === Кнопка старта ===
-            startBtn.Text = "Start quiz";
-            startBtn.Location = new Point(380, 600);
+            // === Alustamise nupp ===
+            startBtn.Text = "Alusta viktoriini";
+            startBtn.Location = new Point(280, 400);
             startBtn.Size = new Size(120, 40);
             startBtn.Font = new Font("Segoe UI", 12, FontStyle.Bold);
             startBtn.BackColor = Color.LightGreen;
             startBtn.Click += StartQuiz;
             panel1.Controls.Add(startBtn);
 
-            // === Кнопка сброса (Reset Answers) ===
-            resetBtn.Text = "Reset";
+            // === Lähtestamise nupp ===
+            resetBtn.Text = "Lähtesta";
             resetBtn.Size = new Size(120, 40);
-            resetBtn.Location = new Point(520, 600);
+            resetBtn.Location = new Point(420, 400);
             resetBtn.BackColor = Color.LightCoral;
             resetBtn.Click += ResetBtn_Click;
             panel1.Controls.Add(resetBtn);
 
-            // === Кнопка паузы (Pause/Resume) ===
-            pauseBtn.Text = "Pause";
+            // === Pausi nupp ===
+            pauseBtn.Text = "Paus";
             pauseBtn.Size = new Size(120, 40);
-            pauseBtn.Location = new Point(250, 600);
+            pauseBtn.Location = new Point(140, 400);
             pauseBtn.BackColor = Color.LightGray;
             pauseBtn.Click += PauseBtn_Click;
             panel1.Controls.Add(pauseBtn);
 
-            // === Создание примеров ===
-            CreateQuestionRow(q1_1, q1_2, mark, ans1, "+", 100);
-            CreateQuestionRow(q2_1, q2_2, mark2, ans2, "-", 180);
-            CreateQuestionRow(q3_1, q3_2, mark3, ans3, "×", 260);
+            // === Ülesannete tegemine ===
+            CreateQuestionRow(q1_1, q1_2, mark, ans1, "+", 80);
+            CreateQuestionRow(q2_1, q2_2, mark2, ans2, "-", 140);
+            CreateQuestionRow(q3_1, q3_2, mark3, ans3, "×", 200);
 
-            // === Кнопка проверки ответов ===
-            checkBtn.Text = "Check answers";
-            checkBtn.Location = new Point(380, 650);
+            // === Vastuste kontrollimise nupp ===
+            checkBtn.Text = "Kontrolli vastuseid";
+            checkBtn.Location = new Point(280, 320);
             checkBtn.Size = new Size(150, 40);
             checkBtn.Font = new Font("Segoe UI", 12, FontStyle.Bold);
             checkBtn.BackColor = Color.LightBlue;
             checkBtn.Click += CheckAnswersClick;
             panel1.Controls.Add(checkBtn);
 
-            // === Таймер ===
+            // === Taimer ===
             quizTimer.Interval = 1000;
             quizTimer.Tick += QuizTimer_Tick;
         }
 
-        // Метод для создания одной строки примера
+        // See funktsioon teeb ühe ülesande rea.
         private void CreateQuestionRow(Label left, Label right, Label op, TextBox ans, string symbol, int y)
         {
             left.Text = "?";
-            left.Location = new Point(250, y);
+            left.Location = new Point(150, y);
             left.Size = new Size(60, 40);
             left.Font = new Font("Segoe UI", 20);
             left.TextAlign = ContentAlignment.MiddleCenter;
 
             op.Text = symbol;
-            op.Location = new Point(330, y);
+            op.Location = new Point(230, y);
             op.Size = new Size(40, 40);
             op.Font = new Font("Segoe UI", 20);
             op.TextAlign = ContentAlignment.MiddleCenter;
 
             right.Text = "?";
-            right.Location = new Point(390, y);
+            right.Location = new Point(290, y);
             right.Size = new Size(60, 40);
             right.Font = new Font("Segoe UI", 20);
             right.TextAlign = ContentAlignment.MiddleCenter;
 
-            ans.Location = new Point(480, y + 5);
+            ans.Location = new Point(380, y + 5);
             ans.Size = new Size(100, 40);
             ans.Font = new Font("Segoe UI", 18);
 
             panel1.Controls.AddRange(new Control[] { left, op, right, ans });
         }
 
-        // Запуск новой игры
+        // See funktsioon alustab uut testi.
         private void StartQuiz(object? sender, EventArgs e)
         {
             i1_1 = rnd.Next(1, 50);
@@ -160,7 +161,7 @@ namespace Juhendid
             quizTimer.Start();
         }
 
-        // Обратный отсчёт таймера
+        // See funktsioon loendab aega tagurpidi.
         private void QuizTimer_Tick(object? sender, EventArgs e)
         {
             timeLeft--;
@@ -179,7 +180,7 @@ namespace Juhendid
             CheckAnswers();
         }
 
-        // Проверка правильности
+        // See funktsioon kontrollib vastuseid.
         private void CheckAnswers()
         {
             int correct = 0;
@@ -188,27 +189,27 @@ namespace Juhendid
             if (int.TryParse(ans2.Text, out int a2) && a2 == i2_1 - i2_2) correct++;
             if (int.TryParse(ans3.Text, out int a3) && a3 == i3_1 * i3_2) correct++;
 
-            MessageBox.Show($"You got {correct} out of 3 correct!", "Results");
+            MessageBox.Show($"Said {correct} õiget vastust 3-st!", "Tulemused");
         }
 
-        // === Сброс ответов ===
+        // See funktsioon kustutab kõik vastused.
         private void ResetBtn_Click(object? sender, EventArgs e)
         {
             ans1.Text = ans2.Text = ans3.Text = "";
         }
 
-        // === Пауза / Продолжить ===
+        // See funktsioon peatab või jätkab testi.
         private void PauseBtn_Click(object? sender, EventArgs e)
         {
             if (quizTimer.Enabled)
             {
                 quizTimer.Stop();
-                pauseBtn.Text = "Resume";
+                pauseBtn.Text = "Jätka";
             }
             else
             {
                 quizTimer.Start();
-                pauseBtn.Text = "Pause";
+                pauseBtn.Text = "Paus";
             }
         }
     }

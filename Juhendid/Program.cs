@@ -1,18 +1,19 @@
 namespace Juhendid;
 
+// See on programmi peaklass. Siin algab kõik.
 static class Program
 {
     /// <summary>
-    ///  The main entry point for the application.
+    /// See on programmi alguspunkt.
     /// </summary>
-    [STAThread]
+    [STAThread] 
     static void Main()
     {
-        // To customize application configuration such as set high DPI settings or default font,
-        // see https://aka.ms/applicationconfiguration.
+        // Siin tehakse programm ilusaks.
         Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);
-        Application.Run(new Form2());
+        // Siin käivitatakse peamenüü.
+        Application.Run(new MainForm());
 
     }
 }

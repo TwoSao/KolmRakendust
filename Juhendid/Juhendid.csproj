@@ -12,6 +12,12 @@
       <Compile Update="Form2.cs">
         <SubType>Form</SubType>
       </Compile>
+      <Compile Update="Form3.cs">
+        <SubType>Form</SubType>
+      </Compile>
+      <Compile Update="main.cs">
+        <SubType>Form</SubType>
+      </Compile>
     </ItemGroup>
 
 </Project>
